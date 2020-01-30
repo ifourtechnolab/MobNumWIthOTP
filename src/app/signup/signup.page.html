@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      SignUp
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="registerScreen">
+    <form [formGroup]="myForm" class="list-form">
+      <ion-item lines="none">
+        <ion-input placeholder="Mobile number" type="tel" formControlName="Mobile">
+        </ion-input>
+      </ion-item>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['Mobile'].hasError('required') && myForm.controls['Mobile'].touched">
+        <ion-text color="danger">
+          Mobile is empty
+        </ion-text>
+      </p>
+      <p ion-text class="text08 mandatory"
+        *ngIf="(myForm.controls['Mobile'].hasError('minlength') || myForm.controls['Mobile'].hasError('maxlength')) && myForm.controls['Mobile'].touched">
+        <ion-text color="danger">
+          Mobile number should be 8-10 chars long.
+        </ion-text>
+      </p>
+      <p ion-text class="text08 mandatory"
+        *ngIf="(myForm.controls['Mobile'].value.length >= 8 && myForm.controls['Mobile'].value.length <= 10) && !isOtpVerify">
+        <ion-row>
+          <ion-col style="text-align: left">
+            <ion-label color="medium" class="fw700">
+              <ion-text class="otp" *ngIf="isOtp" (click)="getOtp(false)">
+                Get Otp
+              </ion-text>
+            </ion-label>
+          </ion-col>
+
+          <ion-col>
+            <ion-label *ngIf="flagTime" color="medium" class="fw700">
+              <ion-text class="timer">
+                {{ddhhmmss}}
+              </ion-text>
+            </ion-label>
+          </ion-col>
+
+          <ion-col>
+            <ion-label color="medium" class="fw700">
+              <ion-text class="otp" *ngIf="isResendotp" (click)="getOtp(true)">
+                Resend Otp
+              </ion-text>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+      </p>
+
+      <ion-item lines="none">
+        <ion-input placeholder="Otp" type="tel" formControlName="Otp" (input)="verifyOtp($event)" maxlength="6">
+        </ion-input>
+      </ion-item>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['Otp'].hasError('required') && myForm.controls['Otp'].touched">
+        <ion-text color="danger">
+          Otp is empty.
+        </ion-text>
+      </p>
+
+      <ion-item lines="none">
+        <ion-input placeholder="Name" type="text" formControlName="Name">
+        </ion-input>
+      </ion-item>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['Name'].hasError('required') && myForm.controls['Name'].touched">
+        <ion-text color="danger">
+          Name is empty.
+        </ion-text>
+      </p>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['Name'].hasError('maxlength') && myForm.controls['Name'].touched">
+        <ion-text color="danger">
+          Name should not be more than 100 chars.
+        </ion-text>
+      </p>
+
+      <ion-item lines="none">
+        <ion-input placeholder="Password" type="password" formControlName="Password">
+        </ion-input>
+      </ion-item>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['Password'].hasError('required') && myForm.controls['Password'].touched">
+        <ion-text color="danger">
+          Password is empty.
+        </ion-text>
+      </p>
+      <p ion-text class="text08 mandatory"
+        *ngIf="(myForm.controls['Password'].hasError('minlength') || myForm.controls['Password'].hasError('maxlength')) && myForm.controls['Password'].touched">
+        <ion-text color="danger">
+          Password should be 8-16 chars long.
+        </ion-text>
+      </p>
+
+      <ion-item lines="none">
+        <ion-input placeholder="Confirm Password" type="password" formControlName="ConfirmPwd">
+        </ion-input>
+      </ion-item>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['ConfirmPwd'].hasError('required') && myForm.controls['ConfirmPwd'].touched ">
+        <ion-text color="danger">
+          Confirm password is empty.
+        </ion-text>
+      </p>
+      <p ion-text class="text08 mandatory"
+        *ngIf="myForm.controls['ConfirmPwd'].touched && myForm.get('ConfirmPwd').errors && myForm.get('ConfirmPwd').errors.ConfirmPwd">
+        <ion-text color="danger">
+          Password and Confirm password does not match.
+        </ion-text>
+      </p>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-row>
+      <ion-col>
+        <ion-button class="p-0" size="large" expand="block" (click)="save()" tappable [disabled]="!isOtpVerify">
+          <ion-text color="light">
+            Register
+          </ion-text>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>
